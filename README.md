@@ -1,6 +1,6 @@
 #Angular Mobile App Redirect
 
-**version 1.0**
+**version 0.5**
 
 While developing a web application with an associated iOS application, we encountered a problem when attempting to direct our users to the iOS application from their email client.
 
@@ -8,7 +8,7 @@ This is an attempt to solve that problem for single page Angular applications.
 
 ##Dependencies
 
--   Angular.js
+-   Angularjs
 -   An iOS application which you will be directing too.
 -   Aforementioned application must have registered custom URL scheme.
 
