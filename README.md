@@ -1,4 +1,4 @@
-#Angular Native App Redirect
+#Angular Mobile App Redirect
 
 **version 1.0**
 
