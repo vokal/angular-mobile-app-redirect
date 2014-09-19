@@ -52,7 +52,7 @@ app.config( [ "AppRedirectProvider" ,
 
 ```
 app.controller( "DocumentationController",
-    "AppRedirect",
+    [ "AppRedirect",
     function ( AppRedirect )
     {
         // simply redirect to the native app
@@ -70,7 +70,7 @@ app.controller( "DocumentationController",
         AppRedirect.redirectTo( device, <path>, <force_redirect> );
         */
         AppRedirect.redirectTo( "iPad", "ipad-docs" );
-    }
+    } ] );
 ```
 
 ###Configuration Functions:
