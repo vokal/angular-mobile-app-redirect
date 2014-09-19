@@ -27,21 +27,21 @@ app.config( [ "AppRedirectProvider" ,
     function ( AppRedirectProvider )
     {
         /*
-        AppRedirectProvider.setDeviceUrl( <device>, <URL_scheme> );
+        AppRedirectProvider.setDeviceUrl( device, scheme );
         */
-        AppRedirectProvider.setDeviceUrl( "iphone", "myapp://" );
+        AppRedirectProvider.setDeviceUrl( "iphone", "myapp" );
         
         //or
         
         /*
         AppRedirectProvider.setDevicesUrls( {
-            ipad: <iPad_URL_scheme>,
-            iphone: <iPhone_URL_scheme>
+            device_a: scheme,
+            device_b: scheme
         } );
         */
         AppRedirectProvider.setDevicesUrls( {
-            ipad: "myipadapp://,
-            iphone: "myiphoneapp://
+            ipad: "myipadapp",
+            iphone: "myiphoneapp"
         } );
         
     } ] );
@@ -63,33 +63,34 @@ app.controller( "DocumentationController",
         AppRedirect.dynamicRedirect( <path> );
         */
         AppRedirect.dynamicRedirect( "documentation" );
-        // note that "myapp://" is not included in the <deep link path> argument
+        // note that "myapp" is not included in the <path> argument
         
         // redirect to only one of the supported devices
         /*
-        AppRedirect.redirectTo( <device>, <path>, <force_redirect> );
+        AppRedirect.redirectTo( device, <path>, <force_redirect> );
         */
-        AppRedirect.redirectTo( iPad, "ipad-docs" );
+        AppRedirect.redirectTo( "iPad", "ipad-docs" );
     }
 ```
 
 ###Configuration Functions:
 
-####function `setDeviceUrl`
+####function `setDeviceUrl( device, scheme )`
 
 - param: device - String - The device to direct to
-- param: URL_scheme - String - The registered URL for the app
+- param: scheme - String - The registered URL for the app
 
 This function will set the registered URL for a specific device.
 
-####function `setDevicesUrls`
+####function `setDevicesUrls( deviceObject )`
 
-- param: device_object - A JavaScript object in the format of:
+- param: deviceObject - A JavaScript object in the format of:
 
 ```
 {
-    <device name>: <device registered URL>,
-    <device name>: <device registered URL>
+    device_a: scheme,
+    device_b: scheme,
+    ...
 }
 ```
 
@@ -97,7 +98,7 @@ This function will set the registered URLs for a specified devices.
 
 ###Service Functions:
 
-####function `dynamicRedirect`
+####function `dynamicRedirect( <path> )`
 
 - param: path - optional String - The path to the deep link in your app
 
@@ -105,8 +106,15 @@ This function will check which device the user is using and attempt to redirect 
 
 If a path parameter is included, it will attempt to redirect to the app's deep link associated with the path.
 
-####function `redirectTo`
+####function `redirectTo( redirectObject )`
 
-- param: device - String - The specific device to attempt to redirect to
-- param: path - optional String - The path to the deep link in your app
-- param: force_redirect - optional Boolean - Attempt to redirect the app regardless of circumstances
+Redirect to a specific device
+- param: redirectObject - JS Object in format of:
+
+```
+{
+    device: String - device to redirect to,
+    path: optional String - deep link to follow,
+    force: optional Boolean - attempt to make redirection regardless of conditions
+}
+```
