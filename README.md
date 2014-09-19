@@ -1,6 +1,6 @@
 #Angular Mobile App Redirect
 
-**version 0.5.1**
+**version 0.6**
 
 While developing a web application with an associated iOS application, we encountered a problem when attempting to direct our users to the iOS application from their email client.
 
