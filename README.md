@@ -45,7 +45,7 @@ app.controller( "DocumentationController",
         AppRedirect.redirect( "" );
 
         // redirect to a deep link in your app
-        // AppRedirect.redirect( <path> );
+        // AppRedirect.redirect( <path>[, <always>] );
         AppRedirect.redirect( "documentation" );
     } ] );
 ```
@@ -66,20 +66,26 @@ Or as part of your $routeProvider, using resolve:
 
 - param: scheme - String - The registered protocol for the app
 
-This function will set the registered URL for a specific device.
+Set the registered URL for a specific device.
 
 #### `setDevices( { iPhone: true|false, iPad: true|false, Android: true|false } )`
 
 - param: - object - The devices that should redirect
 
-This function will set the devices that should redirect.
+Set the devices that should redirect.
 
+#### `setUserAgent( <agent> )`
+
+- param: agent - String - Allows user agent spoofing
+
+Primarily for testing purposes, but allows overriding of `window.navigator.userAgent`.
 
 ### Service Functions:
 
-#### `redirect( <path> )`
+#### `redirect( <path>[, <always>] )`
 
 - param: path - String - The path to the deep link in your app, or use an empty string to suggest the app ignore the path
+- param: always - bool - Whether to always direct to the path when the device is used, even if the path has already been visited. 
 
-This function will check which device the user is using and attempt to redirect to that app.
+Check which device the user is using and attempt to redirect to that app.
 

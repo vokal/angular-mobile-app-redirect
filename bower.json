@@ -1,0 +1,22 @@
+{
+  "name": "angular-mobile-app-redirect",
+  "homepage": "https://github.com/vokal/angular-mobile-app-redirect",
+  "authors": [
+    {
+      "name": "VOKAL Interactive",
+      "email": "webdevelopers@vokal.io"
+    }
+  ],
+  "main": "lib/app-redirect.js",
+  "description": "Redirect an angular app to a native app using an iframe",
+  "license": "MIT",
+  "devDependencies": {
+    "angular": "~1.3.13",
+    "angular-mocks": "~1.3.13"
+  },
+  "ignore": [
+    "grunt/",
+    "spec/",
+    *.*
+  ]
+}
