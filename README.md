@@ -1,120 +1,91 @@
-#Angular Mobile App Redirect
+# Angular Mobile App Redirect
 
-**version 0.6**
+**version 0.7**
 
 While developing a web application with an associated iOS application, we encountered a problem when attempting to direct our users to the iOS application from their email client.
 
-This is an attempt to solve that problem for single page Angular applications.
+This service provides a simple means to redirect to a native (mainly iOS) app from within an Angular application. It works by injecting a hidden iframe into the document, which causes iOS to see a navigation attempt to the protocol scheme registered with an app, which  can then be handled appropriately from within the app.
 
-##Dependencies
+## Dependencies
 
 -   Angularjs
 -   An iOS application which you will be directing too.
 -   Aforementioned application must have registered custom URL scheme.
 
-##iOS Configuration
+## Configuration
 
--   Include `vokal.appRedirect` in your angular app
+Include `vokal.appRedirect` in your angular app
 
-```
+```js
 var app = angular.module( "app", [ "vokal.appRedirect" ] );
 ```
 
--   In your angular app configuration module, you will have to include `AppRedirectProvider` and use it to set one or more device URLs.
+In your angular app configuration module, you will have to include `AppRedirectProvider` and use it to set the protocol you want to use.
 
-```
+```js
 app.config( [ "AppRedirectProvider" ,
     function ( AppRedirectProvider )
     {
-        /*
-        AppRedirectProvider.setDeviceUrl( device, scheme );
-        */
-        AppRedirectProvider.setDeviceUrl( "iphone", "myapp" );
-        
-        //or
-        
-        /*
-        AppRedirectProvider.setDevicesUrls( {
-            device_a: scheme,
-            device_b: scheme
-        } );
-        */
-        AppRedirectProvider.setDevicesUrls( {
-            ipad: "myipadapp",
-            iphone: "myiphoneapp"
-        } );
-        
+        //required
+        AppRedirectProvider.setProtocol( "protocol" );
+
+        // optional, set the devices to use (these are the default values)
+        AppRedirectProvider.setDevices( { iPhone: true, iPad: false, Android: false } );
     } ] );
-    
 ```
 
--   Inside one or more of your page controllers, include `AppRedirect`, and set up logic to redirect to your native app or one of its deep links.
+Inside one or more of your controllers, include `AppRedirect`, and set up logic to redirect to your native app or one of its deep links.
 
-```
+```js
 app.controller( "DocumentationController",
     [ "AppRedirect",
     function ( AppRedirect )
     {
         // simply redirect to the native app
-        AppRedirect.dynamicRedirect();
-        
+        AppRedirect.redirect( "" );
+
         // redirect to a deep link in your app
-        /*
-        AppRedirect.dynamicRedirect( <path> );
-        */
-        AppRedirect.dynamicRedirect( "documentation" );
-        // note that "myapp" is not included in the <path> argument
-        
-        // redirect to only one of the supported devices
-        /*
-        AppRedirect.redirectTo( device, <path>, <force_redirect> );
-        */
-        AppRedirect.redirectTo( "iPad", "ipad-docs" );
+        // AppRedirect.redirect( <path>[, <always>] );
+        AppRedirect.redirect( "documentation" );
     } ] );
 ```
 
-###Configuration Functions:
+Or as part of your $routeProvider, using resolve:
 
-####function `setDeviceUrl( device, scheme )`
-
-- param: device - String - The device to direct to
-- param: scheme - String - The registered URL for the app
-
-This function will set the registered URL for a specific device.
-
-####function `setDevicesUrls( deviceObject )`
-
-- param: deviceObject - A JavaScript object in the format of:
-
-```
-{
-    device_a: scheme,
-    device_b: scheme,
-    ...
-}
+```js
+    $routeProvider.when( "/reset-password/:token", {
+        resolve: { appRedirect: function ( AppRedirect, $route )
+            {
+                return AppRedirect.redirect( "reset-password/" + $route.current.params.token );
+            } } } );
 ```
 
-This function will set the registered URLs for a specified devices.
+### Configuration Functions:
 
-###Service Functions:
+#### `setProtocol( <scheme> )`
 
-####function `dynamicRedirect( <path> )`
+- param: scheme - String - The registered protocol for the app
 
-- param: path - optional String - The path to the deep link in your app
+Set the registered URL for a specific device.
 
-This function will check which device the user is using and attempt to redirect to that app.
+#### `setDevices( { iPhone: true|false, iPad: true|false, Android: true|false } )`
 
-If a path parameter is included, it will attempt to redirect to the app's deep link associated with the path.
+- param: - object - The devices that should redirect
 
-####function `redirectTo( redirectObject )`
+Set the devices that should redirect.
 
-Redirect to a specific device
-- param: redirectObject - JS Object in format of:
+#### `setUserAgent( <agent> )`
 
-```
-{
-    device: String - device to redirect to,
-    path: optional String - deep link to follow,
-    force: optional Boolean - attempt to make redirection regardless of conditions
-}
-```
+- param: agent - String - Allows user agent spoofing
+
+Primarily for testing purposes, but allows overriding of `window.navigator.userAgent`.
+
+### Service Functions:
+
+#### `redirect( <path>[, <always>] )`
+
+- param: path - String - The path to the deep link in your app, or use an empty string to suggest the app ignore the path
+- param: always - bool - Whether to always direct to the path when the device is used, even if the path has already been visited. 
+
+Check which device the user is using and attempt to redirect to that app.
+

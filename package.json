@@ -1,0 +1,32 @@
+{
+  "name": "angular-mobile-app-redirect",
+  "description": "angular-mobile-app-redirect",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vokal/angular-mobile-app-redirect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vokal/angular-mobile-app-redirect/issues"
+  },
+  "homepage": "https://github.com/vokal/angular-mobile-app-redirect",
+  "scripts": {
+    "karma-test": "node ./node_modules/karma/bin/karma start karma-config",
+    "test": "grunt && npm run karma-test"
+  },
+  "devDependencies": {
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "dependencies": {
+    "codecov.io": "0.0.8",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-istanbul": "^0.3.0",
+    "jasmine-reporters": "~1.0.0",
+    "karma": "^0.12.24",
+    "karma-chrome-launcher": "^0.1.4",
+    "karma-coverage": "~0.2.7",
+    "karma-firefox-launcher": "^0.1.3",
+    "karma-jasmine": "~0.2.0",
+    "load-grunt-config": "^0.13.1"
+  }
+}
