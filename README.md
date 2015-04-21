@@ -54,10 +54,10 @@ Or as part of your $routeProvider, using resolve:
 
 ```js
     $routeProvider.when( "/reset-password/:token", {
-        resolve: { appRedirect: function ( AppRedirect, $route )
+        resolve: { appRedirect: [ "AppRedirect", "$route", function ( AppRedirect, $route )
             {
                 return AppRedirect.redirect( "reset-password/" + $route.current.params.token );
-            } } } );
+            } ] } } );
 ```
 
 ### Configuration Functions:
